@@ -1,0 +1,31 @@
+header {
+    background: rgb(56,56,56);
+    background: linear-gradient(90deg, rgba(56,56,56,1) 0%, rgba(0,0,0,1) 0%, rgba(62,62,62,1) 100%);
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    color: white;
+}
+
+main {
+    background-color: antiquewhite;
+}
+
+img {
+    width: 300px;
+    height: auto;
+}
+
+#cocktail-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+article {
+    max-width: 300px;
+}
+
+.infoBtn {
+    width: auto;
+}

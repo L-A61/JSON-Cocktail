@@ -56,40 +56,61 @@ function showCocktails(_cocktails) {
         '<h3>' +
         _cocktails[i].strDrink +
         '</h3>'+
-        '<button class="btn btn-primary btnInfo" id="btnInfo">Info</button>';
+        '<button class="btn btn-primary btnInfo" data-bs-toggle="modal" data-bs-target="#exampleModal" id="btnInfo">Info</button>';
 
         cocktail_section.appendChild(cocktail);
     }
-
-
-
-
-
 
     let btnInfo = document.getElementsByClassName("btnInfo")
 
     for (let i = 0; i < btnInfo.length; i++) {
         btnInfo[i].addEventListener('click', function () {
-            // alert(_cocktails[i].idDrink);
-            showCocktailInfo(_cocktails[i])
+            callCocktailInfo(_cocktails[i].idDrink)
         })
     }
     
-    function showCocktailInfo(_cocktails) {
-        cocktail_info.innerHTML = "";
-        // TODO: Make this appear on cocktail_info's section
-        for (let i = 0; i < _cocktails.length; i++) {
-            let info = document.createElement("article")
-            
-            info.innerHTML = 
-            '<h1>'+strDrink+'</h1>';
+    function callCocktailInfo(_id) {
+        const endpoint =
+        `${API_BASE}lookup.php?i=${_id}`
+    
+    fetch(endpoint)
+        .then((response) => response.json())
+        .then((data) => showCocktailsInfo(data.drinks[0]))
+        .catch(console.error);
+    }
+    
+    function showCocktailsInfo(_data) {
+        let modal_title = document.getElementsByClassName("modal-title")[0];
+        let modal_body = document.getElementsByClassName("modal-body")[0];
+        modal_title.innerHTML = "";
+        modal_body.innerHTML = "";
+        let title_content = document.createElement("h1");
+        title_content.innerHTML = _data.strDrink;
 
-            cocktail_info.appendChild(info)
-        }
+        let ingredient;
+        let measure;
         
-        /* alert("Cateogry: "+_cocktails.strCategory+" Glass to use: "+_cocktails.strGlass+" Type: "+_cocktails.strAlcoholic+
-            "\nIngredients: "+_cocktails.strIngredient1+
-            "\nInstructions: "+_cocktails.strInstructions
-        );*/
+        let body_content = document.createElement("p")
+        body_content.innerHTML =
+        '<img src="' + _data.strDrinkThumb + '">' + 
+        "<p>Category: "+_data.strCategory+"</p>"+
+        "<p>Glass: "+_data.strGlass+"</p>"+
+        "<p>"+_data.strAlcoholic+"</p>";
+
+        Object.keys(_data)
+        .filter((key) => key.startsWith('strIngredient') && _data[key]) //je filtre les clés et ne récupère que celle qui commencent par strIngredient
+        .forEach((key, index) => { // puis je boucle dessus
+            const ingredient = _data[key]; 
+            const measureKey = `strMeasure${index + 1}`;
+            const measure = _data[measureKey] || "Not specified quantity";
+            body_content.innerHTML += `<li>${ingredient} - ${measure}</li>`;
+        });
+
+
+        // "<p>Ingredients: <li>"+_data.strIngredient1 +" : "+ _data.strMeasure1+"</li></p>"+
+         body_content.innerHTML +="<p>Instructions: "+_data.strInstructions+"</p>";
+
+        modal_title.appendChild(title_content);
+        modal_body.appendChild(body_content);
     }
 }

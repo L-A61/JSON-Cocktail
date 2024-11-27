@@ -29,3 +29,8 @@ article {
 .infoBtn {
     width: auto;
 }
+
+li {
+    list-style-type: none;
+
+}

@@ -16,7 +16,7 @@ img {
     height: auto;
 }
 
-#cocktail-section {
+#cocktail_section {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

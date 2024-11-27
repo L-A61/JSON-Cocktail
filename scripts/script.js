@@ -6,23 +6,16 @@ let ingredient_choice = document.getElementById("ingredient_choice");
 let cocktail_choice = document.getElementById("cocktail_choice");
 let searchbar = document.getElementById("searchbar");
 let submit = document.getElementById("send");
-let cocktail_section = document.getElementById("cocktail-section");
-
-
-
+let cocktail_section = document.getElementById("cocktail_section");
+let cocktail_info = document.getElementById("cocktail_info")
 
 searchbar.addEventListener("change", function(event) {
     event.preventDefault()
-    console.log("changed")
 });
 
 submit.addEventListener("click", function(event) {
     event.preventDefault();
-    console.log("clicked")
 })
-
-
-
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
 
@@ -49,7 +42,7 @@ function createCocktails(_cocktails) {
 }
 
 function showCocktails(_cocktails) {
-    cocktail_section.innerHTML ="";
+    cocktail_section.innerHTML = "";
     
     for (let i = 0; i < _cocktails.length; i++) {
         let cocktail = document.createElement("article")
@@ -63,8 +56,40 @@ function showCocktails(_cocktails) {
         '<h3>' +
         _cocktails[i].strDrink +
         '</h3>'+
-        '<button class="btn btn-primary" id="btnInfo">Info</button>';
+        '<button class="btn btn-primary btnInfo" id="btnInfo">Info</button>';
 
         cocktail_section.appendChild(cocktail);
+    }
+
+
+
+
+
+
+    let btnInfo = document.getElementsByClassName("btnInfo")
+
+    for (let i = 0; i < btnInfo.length; i++) {
+        btnInfo[i].addEventListener('click', function () {
+            // alert(_cocktails[i].idDrink);
+            showCocktailInfo(_cocktails[i])
+        })
+    }
+    
+    function showCocktailInfo(_cocktails) {
+        cocktail_info.innerHTML = "";
+        // TODO: Make this appear on cocktail_info's section
+        for (let i = 0; i < _cocktails.length; i++) {
+            let info = document.createElement("article")
+            
+            info.innerHTML = 
+            '<h1>'+strDrink+'</h1>';
+
+            cocktail_info.appendChild(info)
+        }
+        
+        /* alert("Cateogry: "+_cocktails.strCategory+" Glass to use: "+_cocktails.strGlass+" Type: "+_cocktails.strAlcoholic+
+            "\nIngredients: "+_cocktails.strIngredient1+
+            "\nInstructions: "+_cocktails.strInstructions
+        );*/
     }
 }

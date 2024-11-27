@@ -26,17 +26,23 @@
     <!-- Main background: clear-grey-->
     <main>
         <form>
-            <input type="radio" id="ingredient_choice" name="search_option">
-            <label for="ingredient_choice">Ingredient</label>
+            <input type="radio" id="cocktail_choice" name="search_option" checked="checked">
+            <label for="cocktail_choice">Cocktail name</label>
 
-            <input type="radio" id="cocktail_choice" name="search_option">
-            <label for="cocktail_choice">Cocktail name</label><br>
+            <input type="radio" id="ingredient_choice" name="search_option">
+            <label for="ingredient_choice">Ingredient</label><br>
+
+            
             
             <input type="search" placeholder="Search" id="searchbar">
             <button type="submit" id="send">Search</button>
 
         </form>
-        <section id="cocktail-section">
+        <section id="cocktail_info">
+            
+        </section>
+
+        <section id="cocktail_section">
 
         </section>
         <!-- Section vide pour une liste de cocktail (ajouter une classe bootstrap card en javascript)-->

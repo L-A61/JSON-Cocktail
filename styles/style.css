@@ -19,7 +19,7 @@ img {
 #cocktail_section {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: 5%;
 }
 
 article {
@@ -28,6 +28,7 @@ article {
 
 .infoBtn {
     width: auto;
+    background-color: red;
 }
 
 li {

@@ -17,8 +17,8 @@
             <h3>Try the cocktail shaker for a random cocktail</h3>
         </section>
         <section>
-            <button>Shake me a cocktail</button>
-            <h2></h2>
+            <button id="randomBtn" class="btn btn-danger "data-bs-toggle="modal" data-bs-target="#exampleModal">Shake me a cocktail</button>
+            <h2 id="randomChoice"></h2>
         </section>
     </header>
 
@@ -32,7 +32,7 @@
             <label for="ingredient_choice">Ingredient</label><br>
 
             <input type="search" placeholder="Search" id="searchbar">
-            <button type="submit" id="send">Search</button>
+            <button type="submit" id="send" class="btn btn-danger">Search</button>
         </form>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -49,7 +49,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>

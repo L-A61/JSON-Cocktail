@@ -1,5 +1,7 @@
+// Déclaration d'un tableau comme valeur pour la variable cocktailList
 let cocktailList = new Array();
 
+// Selecteur des éléments HTML
 let ingredient_choice = document.getElementById("ingredient_choice");
 let cocktail_choice = document.getElementById("cocktail_choice");
 let searchbar = document.getElementById("searchbar");
@@ -9,20 +11,18 @@ let cocktail_info = document.getElementById("cocktail_info");
 let randomBtn = document.getElementById("randomBtn");
 let randomChoice = document.getElementById("randomChoice");
 
-randomBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-})
-
+// Permet d'éviter l'actualisation par défaut à la saisie des éléments input et button de la balise form.
 searchbar.addEventListener("change", function (event) {
     event.preventDefault();
 });
-
 submit.addEventListener("click", function (event) {
     event.preventDefault();
 })
 
+// Début du lien vers les API utilisés, ce lien est utilisé comme base
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
 
+// Au click du bouton Search, on appel un fetch des deux API selon si on cherche un cocktail selon son nom ou un ingrédient utilisé. Puis appel de la fonction createCocktails
 submit.addEventListener("click", () => {
     const query = searchbar.value.trim();
     const searchType = cocktail_choice.checked ? 'name' : 'ingredient';
@@ -40,21 +40,24 @@ submit.addEventListener("click", () => {
         .catch(console.error);
 })
 
+// Fonction qui insère les cocktails trouvés dans l'API à l'intérieur de la liste cocktailList. 
+// Si aucun cocktail n'est trouvé, l'innerHTML de cocktail_section affiche "No data found". Sinon, on appel la fonction showCocktails
 function createCocktails(_cocktails) {
     cocktailList = _cocktails;
-    //TODO: Faire une exception si aucun cocktail n'est trouvé dans la recherhce
-    if (!cocktailList || Array.isArray(cocktailList)==false) {
+    
+    if (Array.isArray(cocktailList)==false) {
         cocktail_section.innerHTML = "<p>No data found</p>";
     } else {
         showCocktails(cocktailList);
     }
 }
 
+// Affiche dans une card bootstrap chaque nom de cocktail et leur image présent dans la liste cocktailList ainsi qu'un bouton pour leur modal
 function showCocktails(_cocktails) {
     cocktail_section.innerHTML = "";
 
     for (let i = 0; i < _cocktails.length; i++) {
-        let cocktail = document.createElement("article")
+        let cocktail = document.createElement("article");
         cocktail.setAttribute("class", "card");
 
         cocktail.innerHTML =
@@ -71,13 +74,14 @@ function showCocktails(_cocktails) {
     }
 
     let btnInfo = document.getElementsByClassName("btnInfo");
-
+    // Chaque bouton recupère l'id de leur cocktail respective en appelant la fonction callCocktailInfo
     for (let i = 0; i < btnInfo.length; i++) {
         btnInfo[i].addEventListener('click', function () {
             callCocktailInfo(_cocktails[i].idDrink);
         })
     }
 
+    // Cette fonction fait un fetch de l'API servant à récupérer un cocktail selon son ID. Puis appel la fonction showCocktailsInfo
     function callCocktailInfo(_id) {
         const endpoint =
             `${API_BASE}lookup.php?i=${_id}`;
@@ -88,6 +92,7 @@ function showCocktails(_cocktails) {
             .catch(console.error);
     }
 
+    // Fonction pour afficher dans une modal le nom du cocktail, son image, sa catégorie, son type de verre, si c'est alcoholique ainsi que ses ingrédients, mesures et ses instructions
     function showCocktailsInfo(_data) {
         let modal_title = document.getElementsByClassName("modal-title")[0];
         let modal_body = document.getElementsByClassName("modal-body")[0];
@@ -112,8 +117,6 @@ function showCocktails(_cocktails) {
                 body_content.innerHTML += `<li>${ingredient} - ${measure}</li>`;
             });
 
-
-        // "<p>Ingredients: <li>"+_data.strIngredient1 +" : "+ _data.strMeasure1+"</li></p>"+
         body_content.innerHTML += "<p>Instructions: " + _data.strInstructions + "</p>";
 
         modal_title.appendChild(title_content);
@@ -121,10 +124,9 @@ function showCocktails(_cocktails) {
     }
 }
 
+// Appel d'un fetch de l'API "https://www.thecocktaildb.com/api/json/v1/1/random.php" qui fait appel à la fonction showRandomInfo
 randomBtn.addEventListener("click", function () {
-
-    const endpoint =
-        `${API_BASE}random.php`;
+    const endpoint = `${API_BASE}random.php`;
 
     fetch(endpoint)
         .then((response) => response.json())
@@ -132,8 +134,9 @@ randomBtn.addEventListener("click", function () {
         .catch(console.error);
 });
 
+// Fonction pour afficher en dessous du bouton Shake me a cocktail le nom du cocktail aléatoire et sur une modal les détails du cocktails
 function showRandomInfo(_data) {
-    randomChoice.innerHTML=_data.strDrink
+    randomChoice.innerHTML = _data.strDrink;
     let modal_title = document.getElementsByClassName("modal-title")[0];
     let modal_body = document.getElementsByClassName("modal-body")[0];
     modal_title.innerHTML = "";
@@ -141,7 +144,7 @@ function showRandomInfo(_data) {
     let title_content = document.createElement("h1");
     title_content.innerHTML = _data.strDrink;
 
-    let body_content = document.createElement("p")
+    let body_content = document.createElement("p");
     body_content.innerHTML =
         '<img src="' + _data.strDrinkThumb + '">' +
         "<p>Category: " + _data.strCategory + "</p>" +
